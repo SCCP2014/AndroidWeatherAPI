@@ -38,7 +38,6 @@ public class MainActivity extends ActionBarActivity {
 
         requestQueue = Volley.newRequestQueue(this);
         requestWeather();
-
     }
 
     private void requestWeather() {
