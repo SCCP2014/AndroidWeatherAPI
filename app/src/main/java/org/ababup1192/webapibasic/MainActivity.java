@@ -33,12 +33,16 @@ public class MainActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        String url = "http://api.openweathermap.org/data/2.5/weather?q=AizuWakamatsu,jp";
-
         weatherText = (TextView) findViewById(R.id.text_weather);
         tempText = (TextView) findViewById(R.id.text_temp);
 
         requestQueue = Volley.newRequestQueue(this);
+        requestWeather();
+
+    }
+
+    private void requestWeather() {
+        String url = "http://api.openweathermap.org/data/2.5/weather?q=AizuWakamatsu,jp";
         requestQueue.add(new JsonObjectRequest(Request.Method.GET, url, null,
                 new Response.Listener<JSONObject>() {
                     @Override
