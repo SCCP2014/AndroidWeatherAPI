@@ -9,8 +9,6 @@ import android.view.MenuItem;
 import android.widget.TextView;
 
 import org.json.JSONException;
-import org.json.JSONObject;
-
 
 public class MainActivity extends ActionBarActivity implements LoaderManager.LoaderCallbacks<String> {
 
@@ -22,7 +20,6 @@ public class MainActivity extends ActionBarActivity implements LoaderManager.Loa
         // Loader の起動
         getSupportLoaderManager().initLoader(0, null, this);
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -48,22 +45,21 @@ public class MainActivity extends ActionBarActivity implements LoaderManager.Loa
 
     @Override
     public Loader<String> onCreateLoader(int i, Bundle bundle) {
-        return new WebAPILoader(this, "http://date.jsontest.com");
+        return new WebAPILoader(this, "http://api.openweathermap.org/data/2.5/weather?q=AizuWakamatsu,jp");
     }
 
     @Override
     public void onLoadFinished(Loader<String> longLoader, String data) {
-        TextView resultText = (TextView) findViewById(R.id.text_result);
+        TextView weatherText = (TextView) findViewById(R.id.text_weather);
+        TextView tempText = (TextView) findViewById(R.id.text_temp);
         try {
-            JSONObject json = new JSONObject(data);
-            String date = json.getString("date");
-            String time = json.getString("time");
-            resultText.setText(date + ":" + time);
+            Weather weather = new Weather(data);
+            weatherText.setText("天気:" + weather.getWeather());
+            tempText.setText("気温:" + weather.getTemp());
         } catch (JSONException e) {
-            resultText.setText("Dateの取得に失敗しました。");
+            weatherText.setText("天気データの取得に失敗しました。");
             e.printStackTrace();
         }
-
     }
 
     @Override
